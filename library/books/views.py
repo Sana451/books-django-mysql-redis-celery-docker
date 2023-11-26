@@ -31,6 +31,14 @@ class BookListCreateView(ListCreateAPIView):
 
 
 class BookRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
+    """Реализует вывод информации о конкретной книге (GET запрос на url http://127.0.0.1:8000/api/books/1),
+    изменение данных книги (PUT запрос на тот же url, с телом запроса вида:
+    {"title": "Книга 1",
+    "year_of_publication": "2023-11-25T15:14",
+    "isbn": "1232345678987",
+    "author": 1}),
+    а также удаление книги (DELETE запрос на тот же url)
+    """
     serializer_class = BookSerializer
     queryset = Book.objects.all()
     # permission_classes = (IsAuthenticatedOrReadOnly,)
