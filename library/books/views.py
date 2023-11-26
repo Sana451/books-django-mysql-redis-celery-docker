@@ -18,7 +18,7 @@ def index(request):
 
 
 class BookListCreateView(ListCreateAPIView):
-    """Реализует вывод списка книг (GET запрос на url http://127.0.0.1:8000/api/books/),
+    """Реализует вывод списка книг (GET запрос на url http://0.0.0.0:8000/api/books/),
     а также создание новой книги (POST запрос на тот же url, с телом запроса вида:
     {"title": "Книга 1",
     "year_of_publication": "2023-11-25T15:14",
@@ -31,7 +31,7 @@ class BookListCreateView(ListCreateAPIView):
 
 
 class BookRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
-    """Реализует вывод информации о конкретной книге (GET запрос на url http://127.0.0.1:8000/api/books/1),
+    """Реализует вывод информации о конкретной книге (GET запрос на url http://0.0.0.0:8000/api/books/1),
     изменение данных книги (PUT запрос на тот же url, с телом запроса вида:
     {"title": "Книга 1",
     "year_of_publication": "2023-11-25T15:14",
@@ -81,6 +81,15 @@ def user_activate(request, sign):
 
 
 class CreateUserView(CreateAPIView):
+    """Класс реализует создание нового пользователя (POST запрос на url http://0.0.0.0:8000/api/accounts/register-user/,
+    с телом
+    {"username": "New User",
+    "email": "new_user@gmail.com",
+    "password": "Qwertyu123ererre"}).
+    В сериализаторе UserSerializer переопределён метод create, вызывающий асинхронную задачу
+    send_activation_notification, которая использует Celery (Redis в качестве брокера) для отправки email сообщения
+    со ссылкой на страницу подтверждения регистрации нового пользователя.
+    """
     model = get_user_model()
     permission_classes = [permissions.AllowAny]
     serializer_class = UserSerializer
