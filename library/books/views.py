@@ -18,6 +18,13 @@ def index(request):
 
 
 class BookListCreateView(ListCreateAPIView):
+    """Реализует вывод списка книг (GET запрос на url http://127.0.0.1:8000/api/books/),
+    а также создание новой книги (POST запрос на тот же url, с телом запроса вида:
+    {"title": "Книга 1",
+    "year_of_publication": "2023-11-25T15:14",
+    "isbn": "1232345678987",
+    "author": 1})
+    """
     serializer_class = BookSerializer
     queryset = Book.objects.all()
     # permission_classes = (IsAuthenticatedOrReadOnly,)
@@ -69,4 +76,3 @@ class CreateUserView(CreateAPIView):
     model = get_user_model()
     permission_classes = [permissions.AllowAny]
     serializer_class = UserSerializer
-
